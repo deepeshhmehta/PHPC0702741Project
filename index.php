@@ -12,6 +12,9 @@
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="./myscript.js"></script>
+	<script>
+		console.log(<?php echo json_encode($data); ?>);
+	</script>
 <body>
 	<div class="container">
 		<div class="row">
@@ -96,39 +99,33 @@
 						<div class="switch" id="workToggle">Work <span class="glyphicon glyphicon-chevron-right"></span></div>
 						<div id="workDetails" class="data">
 							<table>
-								<tr>
-									<td>
-										<a href="http://www.arth.tech" target="_blank"><p class="title">1Health Integrated Services</p></a>
-									</td>
-									<td>
-										<p class="description"> (Application Developer) </p>
-									</td>
-									<td>
-										<p class ="duration"> Sept 2016 - March 2017</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a href="http://www.hphsystems.com" target="_blank"><p class="title">HPHSYSTEMS</p></a>
-									</td>
-									<td>
-										<p class="description"> (Jr.Developer) </p>
-									</td>
-									<td>
-										<p class ="duration"> June 2016 - Aug 2016</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a href="#"><p class="title">Amygo Productions</p></a>
-									</td>
-									<td>
-										<p class="description"> (Technical Director)) </p>
-									</td>
-									<td>
-										<p class ="duration"> April 2014 - Aug 2016</p>
-									</td>
-								</tr>
+								<?php
+									foreach ($data['right']['work'] as $key => $work) {
+										?>
+										<tr>
+											<td>
+												<a href=<?php echo $work['company_url'] ; ?> target="_blank"><p class="title"><?php echo $work['company_name'] ; ?></p></a>
+											</td>
+											<td>
+												<p class="description"> (<?php echo $work['designation'] ; ?>) </p>
+											</td>
+											<td>
+												<p class ="duration"> <?php echo $work['tenure'] ; ?></p>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="3">
+												<ul>
+													<li>
+														<p class="description"><?php echo $work['job_description'] ; ?></p>
+													</li>
+												</ul>
+											</td>
+										</tr>
+										<?php
+									}
+								?>
+								
 							</table>
 						</div>
 					</div>
@@ -143,18 +140,26 @@
 							<table>
 								<tr>
 									<td>
+										<?php 
+											$count = count($data['right']['skills']);
+											$half = ceil($count/2);
+										?>
 										<ul>
-											<li><p class="description">PHP (Laravel  Ionic)</p></li>
-											<li><p class="description">SQL</p></li>
-											<li><p class="description">HTML and CSS</p></li>
+											<?php
+												for ($i=0; $i < $half ; $i++) { 
+													print_r("<li><p class='description'> ".$data['right']['skills'][$i]['skill_name'] ." </p></li>");
+												}
+											?>
 										</ul>
 										
 									</td>
 									<td>
 										<ul>
-											<li><p class="description">AngularJS</p></li>
-											<li><p class="description">Android</p></li>
-											<li><p class="description">iOS</p></li>
+											<?php
+												for ($i=$half; $i < $count ; $i++) { 
+													print_r("<li><p class='description'> ".$data['right']['skills'][$i]['skill_name'] ." </p></li>");
+												}
+											?>
 										</ul>
 									</td>
 								</tr>
@@ -171,39 +176,23 @@
 						<div class="switch" id="educationToggle">Education <span class="glyphicon glyphicon-chevron-right"></span></div>
 						<div id="educationDetails" class="data">
 							<table>
-								<tr>
-									<td>
-										<a href="https://www.lambtoncollege.ca/" target="_blank"><p class="title">Lambton College (Toronto)</p></a>
-									</td>
-									<td>
-										<p class="description">MADT</p>
-									</td>
-									<td>
-										<p class ="duration"> May 2017 - Jan 2019</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a href="http://mu.ac.in/portal/" target="_blank"><p class="title">Mumbai University</p></a>
-									</td>
-									<td>
-										<p class="description"> BSc.IT </p>
-									</td>
-									<td>
-										<p class ="duration"> July 2013 - March 2016</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a href="http://www.bcswest.org/" target="_blank"><p class="title">Bombay Cambridge School</p></a>
-									</td>
-									<td>
-										<p class="description"> Secondary </p>
-									</td>
-									<td>
-										<p class ="duration"> July 1999 - March 2011</p>
-									</td>
-								</tr>
+								<?php
+									foreach ($data['right']['education'] as $key => $school) {
+										?>
+										<tr>
+											<td>
+												<a href="<?php echo $school['school_url'] ;?>" target="_blank"><p class="title"><?php echo $school['school_name'] ; ?></p></a>
+											</td>
+											<td>
+												<p class="description"> (<?php echo $school['degree_name'] ; ?>) </p>
+											</td>
+											<td>
+												<p class ="duration"> <?php echo $school['year_of_passing'] ; ?></p>
+											</td>
+										</tr>
+										<?php
+									}
+								?>
 							</table>
 						</div>
 					</div>

@@ -18,7 +18,7 @@ class MyDataHandler {
 
    function getData(){
       try {
-          $sql = "SELECT * from data_types";
+          $sql = "SELECT * from data_types ORDER BY order_no";
           $stmt = $this->db->prepare($sql);
           $stmt->execute();
           $master_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,7 +27,7 @@ class MyDataHandler {
 
           foreach ($master_data as $typeKey => $type) {
 
-            $sql = "SELECT * from data d WHERE d.data_type_id = ".$type['id'];
+            $sql = "SELECT * from data d WHERE d.data_type_id = ".$type['id']. " ORDER BY order_no";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             
