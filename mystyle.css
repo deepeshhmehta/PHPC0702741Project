@@ -1,0 +1,89 @@
+
+body{
+	/*background-color: BLACK !important;*/
+	background: url("./wallpaper.png");
+}
+
+div.container{
+	margin: 2%;
+	padding: 2%;
+	height:96%;
+	width:96%;
+}
+
+div.header{
+	background-color: White;
+	border-radius: 25px;
+	text-align: center;
+	font-size: 3em;
+	font-family: "Comic Sans MS";
+	color:#676767;
+
+}
+
+img.image{
+	max-width: 70%;
+	max-height: 250px;
+	margin-top:2%;
+
+}
+
+div.border-right{
+	border-right: 0.5px solid #cccccc;
+}
+
+a.width-80{
+	width:80%;
+}
+
+div.scroll{
+	background-color: White;
+	border-radius: 25px;
+	margin-top:2%;
+	height: 90%;
+	overflow-y: scroll;
+}
+
+p.justified{
+	text-align: justify;
+}
+
+.border-bottom{
+	border-bottom: 0.5px solid GREY;
+}
+
+div.switch{
+	transition: font-size 0.2s;
+	font-size:2em;
+}
+
+div.switch:hover{
+	background-color: #699bd4;
+	cursor: pointer;
+	transition: font-size 0.2s;
+	font-size:3em;
+}
+
+table{
+	border-collapse: separate !important;
+	border-spacing: 20px !important;
+	vertical-align: top;
+}
+
+div.data{
+	margin-top:2%;
+	margin-bottom:2%;
+	display: none;
+	background-color: #a5a2a2;
+	border-radius: 20px;
+}
+
+div#collapseAll, div#expandAll{
+	font-size:1em;
+}
+
+div#collapseAll:hover, div#expandAll:hover{
+	cursor: pointer;
+	background-color: #699bd4;
+}
+
