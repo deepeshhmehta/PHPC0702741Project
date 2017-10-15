@@ -20,7 +20,12 @@
 		<div class="row">
 			<div class="col header">
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-1">
+						<a class="btn btn-info width-80" href="./admin.php">
+							<span>Admin</span>
+						</a>
+					</div>
+					<div class="col-md-9">
 						<?php echo $data['top'][0]['fname'] . ' ' . $data['top'][0]['lname']; ?>
 					</div>
 					<div class="col-md-2">
@@ -204,7 +209,7 @@
 					<div class="col-md-12 text-justify">
 						<div class="switch" id="strengthToggle">Strengths <span class="glyphicon glyphicon-chevron-right"></span></div>
 						<div id="strengthDetails" class="data">
-							<table>
+							<!-- <table>
 								<tr>
 									<td>
 										<ul>
@@ -221,6 +226,34 @@
 											<li><p class="description">Lazy (can find the easiest and simplest way out)</p></li>
 											<li><p class="description">Calm Mind</p></li>
 											<li><p class="description">Team Player</p></li>
+										</ul>
+									</td>
+								</tr>
+							</table> -->
+
+							<table>
+								<tr>
+									<td>
+										<?php 
+											$count = count($data['right']['strength']);
+											$half = ceil($count/2);
+										?>
+										<ul>
+											<?php
+												for ($i=0; $i < $half ; $i++) { 
+													print_r("<li><p class='description'> ".$data['right']['strength'][$i]['strength'] ." </p></li>");
+												}
+											?>
+										</ul>
+										
+									</td>
+									<td>
+										<ul>
+											<?php
+												for ($i=$half; $i < $count ; $i++) { 
+													print_r("<li><p class='description'> ".$data['right']['strength'][$i]['strength'] ." </p></li>");
+												}
+											?>
 										</ul>
 									</td>
 								</tr>
