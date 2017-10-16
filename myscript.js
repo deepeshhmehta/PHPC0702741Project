@@ -19,6 +19,12 @@ $(document).ready(function(){
 		var id = $(this).attr('id');
 		console.log(id);
 		switch(id){
+			case "aboutToggle": {
+				$("#aboutDetails").slideToggle("slow");
+				$(this).find("span").toggleClass("glyphicon-chevron-right",1000,"easeOutShine");
+				$(this).find("span").toggleClass("glyphicon-chevron-down",1000,"easeOutShine");
+				break;
+			}
 			case "workToggle": {
 				$("#workDetails").slideToggle("slow");
 				$(this).find("span").toggleClass("glyphicon-chevron-right",1000,"easeOutShine");
@@ -58,6 +64,10 @@ $(document).ready(function(){
 
 
 	$("#collapseAll").click(function(){
+		$("#aboutDetails").slideUp("slow");
+		$("#aboutToggle").find("span").addClass("glyphicon-chevron-right",1000,"easeOutShine");
+		$("#aboutToggle").find("span").removeClass("glyphicon-chevron-down",1000,"easeOutShine");
+
 		$("#workDetails").slideUp("slow");
 		$("#workToggle").find("span").addClass("glyphicon-chevron-right",1000,"easeOutShine");
 		$("#workToggle").find("span").removeClass("glyphicon-chevron-down",1000,"easeOutShine");
@@ -82,6 +92,10 @@ $(document).ready(function(){
 	})
 
 	$("#expandAll").click(function(){
+		$("#aboutDetails").slideDown("slow");
+		$("#aboutToggle").find("span").removeClass("glyphicon-chevron-right",1000,"easeOutShine");
+		$("#aboutToggle").find("span").addClass("glyphicon-chevron-down",1000,"easeOutShine");
+
 		$("#workDetails").slideDown("slow");
 		$("#workToggle").find("span").removeClass("glyphicon-chevron-right",1000,"easeOutShine");
 		$("#workToggle").find("span").addClass("glyphicon-chevron-down",1000,"easeOutShine");
