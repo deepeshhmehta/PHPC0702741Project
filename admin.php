@@ -6,11 +6,11 @@
     { 
         session_start(); 
     } 
-	if(array_key_exists('Auth', $_SESSION) && $dataHandler->validateSession($_SESSION['Auth'])){
+	if(array_key_exists('Auth', $_SESSION) && $dataHandler->validateSession()){
 		echo '<script>console.log("check passed");</script>';
 	}else{
 		echo '<script>console.log("check failed");</script>';
-		echo '<script type="text/javascript">location.href = "./login.php";</script>';
+		echo '<script type="text/javascript">location.href = "./admin_login.php";</script>';
 	}
 
 ?>

@@ -284,6 +284,13 @@
 						</div>
 					</div>
 				</div>
+				<!-- SHOP -->
+				<div style="height: 5%"></div>
+				<div class="row">
+					<div class="col-md-12 text-justify">
+						<div class="switch" id="shopURL">SHOP <span class="glyphicon glyphicon-chevron-right"></span></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

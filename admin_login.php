@@ -20,7 +20,7 @@
 			<div class="col header">
 				<div class="row">
 					<div class="col-md-10">
-						Login
+						Admin Login
 					</div>
 					<div class="col-md-2">
 						 <a class="btn btn-info width-80" href="./">

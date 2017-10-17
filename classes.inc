@@ -136,13 +136,15 @@ class MyDataHandler {
     $skills = $this->getAdminPanelData('skills');
     $education = $this->getAdminPanelData('education');
     $strength = $this->getAdminPanelData('strength');
+    $product = $this->getAdminPanelData('products');
 
     return array( 
           ['idToggle'=>'aboutToggle','idDetails'=>'aboutDetails','section_name'=>"about",'matter' =>$about],
           ['idToggle'=>'workToggle','idDetails'=>'workDetails','section_name'=>"work",'matter' =>$work],
           ['idToggle'=>'skillsToggle','idDetails'=>'skillsDetails','section_name'=>"skills",'matter' =>$skills],
           ['idToggle'=>'educationToggle','idDetails'=>'educationDetails','section_name'=>"education",'matter' =>$education],
-          ['idToggle'=>'strengthToggle','idDetails'=>'strengthDetails','section_name'=>"strength",'matter' =>$strength]
+          ['idToggle'=>'strengthToggle','idDetails'=>'strengthDetails','section_name'=>"strength",'matter' =>$strength],
+          ['idToggle'=>'productToggle','idDetails'=>'productDetails','section_name'=>"products",'matter' =>$product]
         );
   }
 
@@ -238,12 +240,21 @@ class MyDataHandler {
       die();
     }
 
-    echo '<script type="text/javascript">location.href = "./admin.php";</script>';
+    if($data_type == 8){
+      echo '<script type="text/javascript">location.href = "./shop.php?alert=Success";</script>';  
+    }else{
+      echo '<script type="text/javascript">location.href = "./admin.php";</script>';
+    }
     
   }
 
-  function validateSession($session_id){
+  function validateSession(){
+    
     return (0 == strcmp($_SESSION['Auth'], "VaLiD"));
+  }
+
+  function validateShopSession(){
+    return (0 == strcmp($_SESSION['UserAuth'], "VaLiD"));
   }
 
   function attemptAdminLogin($data){
@@ -262,6 +273,30 @@ class MyDataHandler {
     echo '<script type="text/javascript">location.href = "./admin.php";</script>';
   }
 
+  function attemptShopLogin($data){
+    $user = $data['uname'];
+    $sql = "SELECT * from `data_metadata` WHERE value = '$user' AND data_types_metadata_id = 25";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute();
+
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($users as $key => $user) {
+      $dataId = $user['data_id'];
+      $sql = "SELECT * from `data_metadata` WHERE data_id = '$dataId' AND data_types_metadata_id = 27";
+      $stmt = $this->db->prepare($sql);
+      $stmt->execute();
+      $passwordList = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($passwordList as $key => $value) {
+        if(password_verify($data['pass'], $value['value'])){
+          $_SESSION['UserAuth'] = "VaLiD";
+          $_SESSION['User'] = $data['uname']; 
+        }
+      }
+      
+    }
+    echo '<script type="text/javascript">location.href = "./shop.php";</script>';
+  }
+
   function generateHash($data){
     $hash = password_hash($data['pass'], PASSWORD_DEFAULT);
     $user = $data['uname'];
@@ -271,7 +306,7 @@ class MyDataHandler {
     die();
   }
 
-  function logout(){
+  function logout($type){
     $_SESSION = array(); //destroy all of the session variables
     if (ini_get("session.use_cookies")) {
         $params = session_get_cookie_params();
@@ -283,7 +318,31 @@ class MyDataHandler {
     session_destroy();
 
     // die();
-    echo '<script type="text/javascript">location.href = "./admin.php";</script>';
+    if($type = "SHOP"){
+      echo '<script type="text/javascript">location.href = "./shop.php";</script>';
+    }else{
+      echo '<script type="text/javascript">location.href = "./admin.php";</script>';
+    }
+
+  }
+
+  // function logoutShop(){
+  //   $_SESSION = array(); //destroy all of the session variables
+  //   if (ini_get("session.use_cookies")) {
+  //       $params = session_get_cookie_params();
+  //       setcookie(session_name(), '', time() - 42000,
+  //           $params["path"], $params["domain"],
+  //           $params["secure"], $params["httponly"]
+  //       );
+  //   }
+  //   session_destroy();
+
+  //   // die();
+  //   echo '<script type="text/javascript">location.href = "./shop.php";</script>';
+  // }
+
+  function signUpShop($data){
+
   }
 
 }

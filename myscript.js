@@ -15,6 +15,9 @@ $(document).ready(function(){
 	// 	$("img").attr("src","ProfilePic2.jpg");
 	// }
 
+	$("#shopURL").click(function(){
+		location.href="./shop.php";
+	})
 	$(".switch").click(function(){
 		var id = $(this).attr('id');
 		console.log(id);
@@ -55,6 +58,13 @@ $(document).ready(function(){
 				$(this).find("span").toggleClass("glyphicon-chevron-down",1000,"easeOutShine");
 				break;
 			}
+
+			case "productToggle": {
+				$("#productDetails").slideToggle("slow");
+				$(this).find("span").toggleClass("glyphicon-chevron-right",1000,"easeOutShine");
+				$(this).find("span").toggleClass("glyphicon-chevron-down",1000,"easeOutShine");
+				break;
+			}
 		}
 		
 	})
@@ -89,6 +99,10 @@ $(document).ready(function(){
 		$("#mediaToggle").find("span").addClass("glyphicon-chevron-right",1000,"easeOutShine");
 		$("#mediaToggle").find("span").removeClass("glyphicon-chevron-down",1000,"easeOutShine");
 
+		$("#productDetails").slideUp("slow");
+		$("#productToggle").find("span").addClass("glyphicon-chevron-right",1000,"easeOutShine");
+		$("#productToggle").find("span").removeClass("glyphicon-chevron-down",1000,"easeOutShine");
+
 	})
 
 	$("#expandAll").click(function(){
@@ -115,6 +129,10 @@ $(document).ready(function(){
 		$("#mediaDetails").slideDown("slow");
 		$("#mediaToggle").find("span").removeClass("glyphicon-chevron-right",1000,"easeOutShine");
 		$("#mediaToggle").find("span").addClass("glyphicon-chevron-down",1000,"easeOutShine");
+
+		$("#productDetails").slideDown("slow");
+		$("#productToggle").find("span").removeClass("glyphicon-chevron-right",1000,"easeOutShine");
+		$("#productToggle").find("span").addClass("glyphicon-chevron-down",1000,"easeOutShine");
 	
 	})
 

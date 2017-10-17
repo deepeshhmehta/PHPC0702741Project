@@ -17,16 +17,22 @@
 		case 'update':
 			$GLOBALS['dataHandler']->updateData($_POST);
 			break;
+		case 'Sign Up':
+			$_POST['pass'] = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 		case 'Add':
 			$GLOBALS['dataHandler']->addData($_POST);
 			break;
 		case 'Login':
 			$GLOBALS['dataHandler']->attemptAdminLogin($_POST);
-			// $GLOBALS['dataHandler']->generateHash($_POST);
+			break;
+		case 'Login To Shop':
+			$GLOBALS['dataHandler']->attemptShopLogin($_POST);
 			break;
 		case 'logout':
-			$GLOBALS['dataHandler']->logout($_POST);
-			// $GLOBALS['dataHandler']->generateHash($_POST);
+			$GLOBALS['dataHandler']->logout("other");
+			break;
+		case 'logout_shop':
+			$GLOBALS['dataHandler']->logout("SHOP");
 			break;
 		default:
 			echo '# code...';
