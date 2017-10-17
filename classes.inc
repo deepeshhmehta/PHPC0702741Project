@@ -296,7 +296,7 @@ class MyDataHandler {
     }
     session_destroy();
 
-    if($type = "SHOP"){
+    if($type == "SHOP"){
       echo '<script type="text/javascript">location.href = "./shop.php";</script>';
     }else{
       echo '<script type="text/javascript">location.href = "./admin.php";</script>';
