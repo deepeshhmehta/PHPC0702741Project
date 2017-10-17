@@ -2,9 +2,14 @@
 	include 'classes.inc';
 	$dataHandler = new MyDataHandler();
 	$allSections = $dataHandler->getAllSectionsAdminPanel();
-
-	session_start();
-	if(!array_key_exists('auth', $_SESSION) || !$dataHandler->validateSession($_SESSION['auth'])){
+	if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
+	if(array_key_exists('Auth', $_SESSION) && $dataHandler->validateSession($_SESSION['Auth'])){
+		echo '<script>console.log("check passed");</script>';
+	}else{
+		echo '<script>console.log("check failed");</script>';
 		echo '<script type="text/javascript">location.href = "./login.php";</script>';
 	}
 
@@ -25,7 +30,12 @@
 		<div class="row">
 			<div class="col header">
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-1">
+						<a class="btn btn-info width-80" href="./routes.php?action=logout">
+							<span>Logout</span>
+						</a>
+					</div>
+					<div class="col-md-9">
 						Admin Panel
 					</div>
 					<div class="col-md-2">
@@ -69,7 +79,7 @@
 											foreach ($value['matter']['data'] as $key => $instance) {
 												?>
 												<tr>
-													<form action="./change.php" method="POST">
+													<form action="./routes.php" method="POST">
 													<input type="hidden" name="data_id" value=<?php echo $key;?> />
 													<?php
 														foreach ($value['matter']['fields'] as $key => $field) {
@@ -92,7 +102,7 @@
 											?>
 											<?php if($field['data_type_id'] != 2){?>
 											<tr>
-												<form action="./change.php" method="POST">
+												<form action="./routes.php" method="POST">
 												<input type="hidden" name="data_id" value= 0 />				
 												<?php
 													foreach ($value['matter']['fields'] as $key => $field) {

@@ -1,6 +1,10 @@
 <?php
-class MyDataHandler {
+if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
 
+class MyDataHandler {
   var $db;
   var $servername = "localhost:3306";
   var $username = "root";
@@ -239,7 +243,47 @@ class MyDataHandler {
   }
 
   function validateSession($session_id){
-    return false;
+    return (0 == strcmp($_SESSION['Auth'], "VaLiD"));
+  }
+
+  function attemptAdminLogin($data){
+    $user = $data['uname'];
+    // print_r($hash);
+    $sql = "SELECT * from `admin_credentials` WHERE user = '$user'";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute();
+
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($users as $key => $user) {
+      if(password_verify($data['pass'], $user['password'])){
+        $_SESSION['Auth'] = "VaLiD";
+      }
+    }
+    echo '<script type="text/javascript">location.href = "./admin.php";</script>';
+  }
+
+  function generateHash($data){
+    $hash = password_hash($data['pass'], PASSWORD_DEFAULT);
+    $user = $data['uname'];
+    print_r($hash);
+    print_r("<br/><br/>");
+    print_r($user);
+    die();
+  }
+
+  function logout(){
+    $_SESSION = array(); //destroy all of the session variables
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    session_destroy();
+
+    // die();
+    echo '<script type="text/javascript">location.href = "./admin.php";</script>';
   }
 
 }

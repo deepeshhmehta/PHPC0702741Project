@@ -44,6 +44,14 @@ div.scroll{
 	overflow-y: scroll;
 }
 
+div.scroll-login{
+	background-color: White;
+	border-radius: 25px;
+	margin-top:2%;
+	height: 45%;
+	overflow-y: scroll;
+}
+
 p.justified{
 	text-align: justify;
 }

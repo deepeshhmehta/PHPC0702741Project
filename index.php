@@ -1,6 +1,10 @@
 <?php
 	include 'classes.inc';
-
+	// session_destroy();
+	if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
 	$dataHandler = new MyDataHandler();
 	$data = $dataHandler->getPackagedData();
 ?>
