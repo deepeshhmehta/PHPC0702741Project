@@ -3,6 +3,11 @@
 	$dataHandler = new MyDataHandler();
 	$allSections = $dataHandler->getAllSectionsAdminPanel();
 
+	session_start();
+	if(!array_key_exists('auth', $_SESSION) || !$dataHandler->validateSession($_SESSION['auth'])){
+		echo '<script type="text/javascript">location.href = "./login.php";</script>';
+	}
+
 ?>
 <html>
 <head>
@@ -58,6 +63,7 @@
 												<?php
 											}
 										?>
+											
 										</tr>
 										<?php
 											foreach ($value['matter']['data'] as $key => $instance) {
@@ -76,12 +82,34 @@
 														}
 													?>
 													<td><input type="submit" name="action" value="update"/></td>
-													<td><input type="submit" name="action" value="delete"/></td>
+													<?php if($field['data_type_id'] != 2){?>
+														<td><input type="submit" name="action" onclick="return confirm('Are You Sure?')" value="delete"/></td>
+													<?php } ?>
 													</form>
-												</tr>											
+												</tr>										
 												<?php
 											}
-										?>							
+											?>
+											<?php if($field['data_type_id'] != 2){?>
+											<tr>
+												<form action="./change.php" method="POST">
+												<input type="hidden" name="data_id" value= 0 />				
+												<?php
+													foreach ($value['matter']['fields'] as $key => $field) {
+														?>
+													
+														<td>
+															<input type="text" name=<?php echo $field['field_name'];?> placeholder = <?php echo $field['field_name'];?> value = "">
+														</td>
+														<?php
+													}
+												?>
+												<input type="hidden" name="data_type_id" value= <?php echo $field['data_type_id'];?> />
+												<td><input type="submit" name="action" value="Add"/></td>
+												</form>
+											</tr>
+											<?php } ?>
+										</tr>					
 									</table>
 								</div>
 							</div>

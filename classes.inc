@@ -182,5 +182,65 @@ class MyDataHandler {
     echo '<script type="text/javascript">location.href = "./admin.php";</script>';
   }
 
+  function addData($data){
+    try{
+      $data_type = $data['data_type_id'];
+      $sql = "SELECT *
+              FROM `data_types_metadata` dm
+              WHERE dm.data_type_id = $data_type
+              ORDER BY order_no";
+      $stmt = $this->db->prepare($sql);
+      $stmt->execute();
+      $fields = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $sql = "SELECT *
+              FROM `data_types` dm
+              WHERE dm.id = $data_type";
+      $stmt = $this->db->prepare($sql);
+      $stmt->execute();
+      $data_type_obj = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      // print_r($data_type_obj);
+      // print_r($fields);
+      // print_r("<br/><br/>");
+      $title = strtoupper($data_type_obj[0]['data_type_name']) . "(".$data[$fields[0]['field_name']].")";
+      // print_r($title);
+
+      $sql = "SELECT max(order_no) from `data` where data_type_id = $data_type";
+      $stmt = $this->db->prepare($sql);
+      $stmt->execute();
+      $max_order = $stmt->fetchAll();
+      $max_order = $max_order[0][0] + 1;
+      
+      $sql = "INSERT into `data` values (NULL,:title,:data_type_id,:max_order)";
+      $stmt = $this->db->prepare($sql);
+      $stmt->bindValue(':title',$title);
+      $stmt->bindValue(':data_type_id',$data_type);
+      $stmt->bindValue(':max_order',$max_order);
+      $stmt->execute();
+      $inserted_data = $this->db->lastInsertId();
+
+      // print_r($inserted_data);
+
+      foreach ($fields as $key => $field) {
+        $sql = "INSERT into `data_metadata` values(NULL,:data_id, :data_types_metadata_id,:value)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':data_id',$inserted_data);
+        $stmt->bindValue(':data_types_metadata_id',$field['id']);
+        $stmt->bindValue(':value',$data[$field['field_name']]);
+        $stmt->execute();
+      }
+    }catch(PDOException $e){
+      echo 'add failed ' . $e->getMessage();
+      die();
+    }
+
+    echo '<script type="text/javascript">location.href = "./admin.php";</script>';
+    
+  }
+
+  function validateSession($session_id){
+    return false;
+  }
+
 }
 ?>

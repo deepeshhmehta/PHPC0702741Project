@@ -11,6 +11,9 @@
 		case 'update':
 			$GLOBALS['dataHandler']->updateData($_POST);
 			break;
+		case 'Add':
+			$GLOBALS['dataHandler']->addData($_POST);
+			break;
 		default:
 			echo '# code...';
 			break;
