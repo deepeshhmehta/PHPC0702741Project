@@ -34,6 +34,9 @@
 		case 'logout_shop':
 			$GLOBALS['dataHandler']->logout("SHOP");
 			break;
+		case 'checkout':
+			$GLOBALS['dataHandler']->checkout($_POST);
+			break;
 		default:
 			echo '# code...';
 			break;

@@ -1,6 +1,7 @@
 <?php
 	include 'classes.inc';
 	$dataHandler = new MyDataHandler();
+	
 	if(array_key_exists('alert', $_GET)){
 		$alert = $_GET['alert'];
 		echo "<script>alert($alert);</script>";

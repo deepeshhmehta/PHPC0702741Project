@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	var products = [];
+
 	var params = getUrlVars();
 	if(params.length > 1){
 		var review = params["review"];
@@ -148,6 +150,31 @@ $(document).ready(function(){
 	    return vars;
 	}
 
+
+	$("div").delegate(".product","click",function(){
+		$(this).addClass("product-checked");
+		$(this).removeClass("product");
+		products.push($(this)[0].id);
+		$("#product_array").val(products.toString());
+		$("#product_array").val(products);
+	});
+
+	$("div").delegate(".product-checked","click",function(){
+		$(this).addClass("product");
+		$(this).removeClass("product-checked");
+		remove(products,$(this)[0].id)
+		$("#product_array").val(products.toString());
+	});
+
+	function remove(array, element) {
+    const index = array.indexOf(element);
+    
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
+}
+
+	
 
 
 })

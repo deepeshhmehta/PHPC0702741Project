@@ -230,6 +230,7 @@ class MyDataHandler {
   }
 
   function validateShopSession(){
+    
     return (0 == strcmp($_SESSION['UserAuth'], "VaLiD"));
   }
 
@@ -253,6 +254,7 @@ class MyDataHandler {
     $sql = "SELECT * from `data_metadata` WHERE value = '$user' AND data_types_metadata_id = 25";
     $stmt = $this->db->prepare($sql);
     $stmt->execute();
+    $message = "FAILED";
 
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($users as $key => $user) {
@@ -265,11 +267,13 @@ class MyDataHandler {
         if(password_verify($data['pass'], $value['value'])){
           $_SESSION['UserAuth'] = "VaLiD";
           $_SESSION['User'] = $data['uname']; 
+          $_SESSION['user_id'] = $dataId; 
+          $message = "Success ".$data['uname'];
         }
       }
       
     }
-    echo '<script type="text/javascript">location.href = "./shop.php";</script>';
+    echo '<script type="text/javascript">location.href = "./shop.php?alert='.$message.'";</script>';
   }
 
   function generateHash($data){
@@ -297,11 +301,50 @@ class MyDataHandler {
     }else{
       echo '<script type="text/javascript">location.href = "./admin.php";</script>';
     }
-
   }
 
-  function signUpShop($data){
+  function checkout($data){
+    // print_r($data);
+    $products = explode(",",$data['products']);
+    $user_id = $data['userid'];
+    $code = $user_id;
+    
+    while(strlen($code)<4){
+      $code = "0".$code;
+    }
+    $title = "ORDER(".$code.date("D M d, Y G:i").")";
+    $sql = "SELECT max(order_no) from `data` where data_type_id = 9";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute();
+    $max_order = $stmt->fetchAll();
+    $max_order = $max_order[0][0] + 1;
 
+    $sql = "INSERT into `data` values (NULL,:title,:data_type_id,:max_order)";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':title',$title);
+    $stmt->bindValue(':data_type_id',9);
+    $stmt->bindValue(':max_order',$max_order);
+    $stmt->execute();
+    $inserted_data = $this->db->lastInsertId();
+
+    $sql = "INSERT into `data_metadata` values(NULL,:data_id, :data_types_metadata_id,:value)";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':data_id',$inserted_data);
+    $stmt->bindValue(':data_types_metadata_id',28);
+    $stmt->bindValue(':value',$user_id);
+    $stmt->execute();
+
+    foreach ($products as $value) {
+      $sql = "INSERT into `data_metadata` values(NULL,:data_id, :data_types_metadata_id,:value)";
+      $stmt = $this->db->prepare($sql);
+      $stmt->bindValue(':data_id',$inserted_data);
+      $stmt->bindValue(':data_types_metadata_id',29);
+      $stmt->bindValue(':value',$value);
+      $stmt->execute();
+    }
+    $message = "OrderPlaced: ". $title;
+    echo 'Thank You For Shopping with us!';
+    echo '<script> setTimeout(function(){ location.href = "./shop.php?alert='.$message.'"; }, 1000);</script>';
   }
 
 }

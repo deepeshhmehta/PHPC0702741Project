@@ -95,3 +95,11 @@ div#collapseAll:hover, div#expandAll:hover{
 	background-color: #699bd4;
 }
 
+img.product:hover{
+	border: 1px solid YELLOW;
+}
+
+img.product-checked{
+	border:1px solid GREEN;
+}
+
