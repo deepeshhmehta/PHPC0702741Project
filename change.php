@@ -1,12 +1,15 @@
 <?php
+	include 'classes.inc';
+	$dataHandler = new MyDataHandler();
+
 	$data = Array();
 
 	switch ($_POST['action']) {
 		case 'delete':
-			echo 'Delete';
+			$GLOBALS['dataHandler']->deleteData($_POST);
 			break;
 		case 'update':
-			echo 'Update';
+			$GLOBALS['dataHandler']->updateData($_POST);
 			break;
 		default:
 			echo '# code...';

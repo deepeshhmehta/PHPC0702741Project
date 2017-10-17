@@ -140,7 +140,46 @@ class MyDataHandler {
           ['idToggle'=>'educationToggle','idDetails'=>'educationDetails','section_name'=>"education",'matter' =>$education],
           ['idToggle'=>'strengthToggle','idDetails'=>'strengthDetails','section_name'=>"strength",'matter' =>$strength]
         );
+  }
 
+  function updateData($data){
+    $id = $data['data_id'];
+    $sql = "SELECT dm.id, dm.value, dtm.field_name 
+            FROM `data_metadata` dm 
+            LEFT JOIN data_types_metadata dtm ON dm.data_types_metadata_id = dtm.id 
+            WHERE dm.data_id = $id ";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute();
+    $metadatas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    try{
+      foreach ($metadatas as $key => $metadata) {
+        // print_r($data[$metadata['field_name']]);
+        $newValue = $data[$metadata['field_name']];
+        $meta_id = $metadata['id'];
+        $sql = "UPDATE data_metadata SET value = :new_value WHERE id = :meta_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':new_value',$newValue);
+        $stmt->bindValue(':meta_id',$meta_id);
+        $stmt->execute();
+      }
+    }catch(PDOException $e){
+      echo 'upDate failed ' . $e->getMessage();
+    }
+    echo '<script type="text/javascript">location.href = "./admin.php";</script>';
+  }
+
+  function deleteData($data){
+    // die("HEllo Delete Called");
+    try{
+      $id = $data['data_id'];
+      $sql = "DELETE from `data_metadata` WHERE data_id = $id; DELETE from `data` WHERE id = $id;";
+      $stmt = $this->db->prepare($sql);
+      $stmt->execute();
+    }catch(PDOException $e){
+      echo 'Delete failed ' . $e->getMessage();
+      die();
+    }
+    echo '<script type="text/javascript">location.href = "./admin.php";</script>';
   }
 
 }
