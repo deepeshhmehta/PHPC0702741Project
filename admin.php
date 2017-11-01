@@ -18,7 +18,8 @@
 <head>
 	<title> Admins </title>
 	<link rel="stylesheet" type="text/css" href="./mystyle.css">
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="./myscript.js"></script>
 	<script>
@@ -30,7 +31,7 @@
 		<div class="row">
 			<div class="col header">
 				<div class="row">
-					<div class="col-md-1">
+					<div class="col-md">
 						<a class="btn btn-info width-80" href="./routes.php?action=logout">
 							<span>Logout</span>
 						</a>
@@ -38,7 +39,7 @@
 					<div class="col-md-9">
 						Admin Panel
 					</div>
-					<div class="col-md-2">
+					<div class="col-md">
 						 <a class="btn btn-info width-80" href="./">
 							<span class="glyphicon glyphicons-undo"> </span>
 							<span> Back</span>
@@ -50,8 +51,9 @@
 		<div class="scroll">
 				<div style="height: 5%"></div>
 				<div class="row">
-					<div class="col-xs-2" id="collapseAll">Collapse All</div>
-					<div class="col-xs-2 col-xs-offset-8" id="expandAll">Expand All</div>
+					<div class="col-md-2" id="collapseAll">Collapse All</div>
+					<div class="col-md-8"></div>
+					<div class="col-md-2" id="expandAll">Expand All</div>
 				</div>
 				<!-- main area -->
 				<?php
@@ -62,65 +64,85 @@
 							<div class="col-md-12 text-justify">
 								<div class="switch" id=<?php echo $value['idToggle'];?> > <?php echo ucfirst($value['section_name']);?> <span class="glyphicon glyphicon-chevron-right"></span></div>
 								<div id=<?php echo $value['idDetails'];?> class="data">
-									<table>
-										<tr>
+									<div class="container">
+										<!-- <div class="row">
 										<?php
 											foreach ($value['matter']['fields'] as $key => $field) {
 												?>
-												<th>
-													<?php echo ucfirst($field['field_name']);?> 
-												</th>
+												<div class="col-md">
+													<b>
+														<?php echo ucfirst($field['field_name']);?>
+													</b> 
+												</div>
 												<?php
 											}
 										?>
+										<div class="col-md"></div>
 											
-										</tr>
+										</div> -->
 										<?php
 											foreach ($value['matter']['data'] as $key => $instance) {
 												?>
-												<tr>
-													<form action="./routes.php" method="POST">
+												<form action="./routes.php" method="POST">
 													<input type="hidden" name="data_id" value=<?php echo $key;?> />
-													<?php
-														foreach ($value['matter']['fields'] as $key => $field) {
-															?>
+													<div class="row instance-border">
+														<?php
+															foreach ($value['matter']['fields'] as $key => $field) {
+																?>
+																<!-- <div class="col-md">
+																	some data
+																</div> -->
+																<div class="col-md">
+																	<div class="col-md-12">
+																		<b>
+																			<?php echo ucfirst($field['field_name']);?>
+																		</b> 
+																	</div>
+																	<div class="col-md-12">
+																		<input type="text" name=<?php echo $field['field_name'];?> placeholder = <?php echo $field['field_name'];?> value = <?php echo '"'.$instance[$field['field_name']].'"';?>>
+																	</div>
+																</div>
+																<?php
+															}
+														?>
+														<div class="col-md">
+															<div class="col-md-12">
+																<input type="submit" name="action" value="update"/>
+															</div>
+														</div>
+														<?php if($field['data_type_id'] != 2){?>
+															<div class="col-md">
+																<div class="col-md-12">
+																	<input type="submit" name="action" onclick="return confirm('Are You Sure?')" value="delete"/>
+																</div>
+															</div>
+														<?php } ?>
 														
-															<td>
-																<input type="text" name=<?php echo $field['field_name'];?> placeholder = <?php echo $field['field_name'];?> value = <?php echo '"'.$instance[$field['field_name']].'"';?>>
-															</td>
-															<?php
-														}
-													?>
-													<td><input type="submit" name="action" value="update"/></td>
-													<?php if($field['data_type_id'] != 2){?>
-														<td><input type="submit" name="action" onclick="return confirm('Are You Sure?')" value="delete"/></td>
-													<?php } ?>
-													</form>
-												</tr>										
+													</div>
+												</form>										
 												<?php
 											}
 											?>
 											<?php if($field['data_type_id'] != 2){?>
-											<tr>
-												<form action="./routes.php" method="POST">
-												<input type="hidden" name="data_id" value= 0 />				
+											<form action="./routes.php" method="POST">
+												<input type="hidden" name="data_id" value= 0 />
+												<div class="row">				
 												<?php
 													foreach ($value['matter']['fields'] as $key => $field) {
 														?>
 													
-														<td>
+														<div class="col-md">
 															<input type="text" name=<?php echo $field['field_name'];?> placeholder = <?php echo $field['field_name'];?> value = "">
-														</td>
+														</div>
 														<?php
 													}
 												?>
 												<input type="hidden" name="data_type_id" value= <?php echo $field['data_type_id'];?> />
-												<td><input type="submit" name="action" value="Add"/></td>
-												</form>
-											</tr>
-											<?php } ?>
-										</tr>					
-									</table>
+												<div class="col-md"><input type="submit" name="action" value="Add"/></div>						
+												</div>
+											</form>
+											<?php } ?>					
+									</div>
 								</div>
 							</div>
 						</div>

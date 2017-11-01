@@ -84,6 +84,8 @@ div.data{
 	display: none;
 	background-color: #a5a2a2;
 	border-radius: 20px;
+	height: 90%;
+	overflow-y: scroll;
 }
 
 div#collapseAll, div#expandAll{
@@ -101,5 +103,9 @@ img.product:hover{
 
 img.product-checked{
 	border:1px solid GREEN;
+}
+
+.instance-border{
+	border: 0.5px solid #e5e4e4;
 }
 
