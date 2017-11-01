@@ -6,7 +6,7 @@ if(!isset($_SESSION))
 
 class MyDataHandler {
   var $db;
-  var $servername = "localhost:3306";
+  var $servername = "localhost:5306";
   var $username = "root";
   var $password = "";
   var $sql = "some statement";
